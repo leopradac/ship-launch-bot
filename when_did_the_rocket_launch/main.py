@@ -175,7 +175,7 @@ def execute(bisector=None, launched=False, frames=None):
     Images are displayed using pygame, but the interactivity happens in
     the terminal as it is much easier to do.
     """
-    found = False
+    finished = False
     image = None
 
     bisector = bisector if bisector is not None else FrameXBisector(VIDEO_NAME)
@@ -185,13 +185,18 @@ def execute(bisector=None, launched=False, frames=None):
         bisector.index = n
 
     frames_range, index = bisect(bisector.count, setter, frames, launched)
+    image = bisector.blit(index)
 
     if len(frames_range) == 0:
         # if its 0 then it finished
         setter(index)
-        found = True
+        finished = True
         print(f"Found! Take-off = {index}")
-    else:
-        image = bisector.blit(index)
 
-    return bisector, frames_range, image, found, index
+    return {
+        "bisector": bisector,
+        "frames_range": frames_range,
+        "image": image,
+        "finished": finished,
+        "index": index,
+    }
