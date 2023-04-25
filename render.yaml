@@ -7,5 +7,6 @@ services:
     startCommand: "python bot.py"
     autoDeploy: false
     plan: free
-    fromGroup: ship-envs
+    envVars:
+      - fromGroup: ship-envs
   
